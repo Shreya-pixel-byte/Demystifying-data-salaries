@@ -1,0 +1,87 @@
+# Importing required library
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+salaries_df = pd.read_csv('salaries.csv')
+salaries_df
+
+
+Q1. How many records are in the dataset, and what is the range of years covered?
+
+num_records = salaries_df.shape[0]
+year_range = (salaries_df["work_year"].min()
+              ,salaries_df["work_year"].max())
+
+#Plotting the records
+
+plt.figure(figsize=(1, 4))
+plt.bar(["Total Records"], [num_records], color='skyblue')
+plt.ylabel("Count")
+plt.title("Total Number of Records")
+plt.show()
+
+# Plotting No.of records vs Year
+
+yearly_counts = salaries_df["work_year"].value_counts().sort_index()  # Count records per year
+
+plt.figure(figsize=(7, 4))
+plt.bar(yearly_counts.index, yearly_counts.values, color=('lightgreen','lightblue','orange'))
+plt.xlabel("work_year")
+plt.ylabel("Count of Records")
+plt.title("Number of Records per Year")
+plt.xticks(yearly_counts.index)  # Ensure all years are labeled
+plt.show()
+
+Q2. What is the average salary (in USD) for Data Scientists and Data Engineers? Which role earns more on average?
+
+roles = ["Data Scientist", "Data Engineer"]
+avg_salaries = salaries_df[salaries_df["job_title"].isin(roles)].groupby("job_title")["salary_in_usd"].mean()
+higher_paid_role = avg_salaries.idxmax()
+
+# Plotting Average salary for Data Scientists and Data Engineers
+
+plt.figure(figsize=(3, 4))
+sns.barplot(x=avg_salaries.index, y=avg_salaries.values, palette="coolwarm")
+plt.ylabel("Average Salary (USD)")
+plt.title("Average Salary Comparison: Data Scientist vs. Data Engineer")
+plt.show()
+
+Q3. How many full-time employees based in the US work 100% remotely?
+
+full_time_remote_us = salaries_df[(salaries_df["employment_type"] == "FT") & 
+                         (salaries_df["company_location"] == "US") & 
+                         (salaries_df["employment_type"] == "100%")].shape[0]
+
+# Plot: Full-Time Remote Employees in the US
+
+import matplotlib.pyplot as plt
+
+remote_counts = [full_time_remote_us, num_records - full_time_remote_us]
+labels = ["Full-Time Remote US", "Others"]
+
+plt.figure(figsize=(4, 5))  # Adjust the figure size
+plt.bar(labels, remote_counts, color=['pink', 'royalblue'])
+plt.title("Number of Full-Time Remote Employees in the US")
+plt.ylabel("Count")
+plt.show()
+
+# Displaying results
+
+print(f"Number of records: {num_records}")
+print(f"Year range: {year_range[0]} - {year_range[1]}")
+print("Average salaries (USD):")
+print(avg_salaries)
+print(f"Higher paid role on average: {higher_paid_role}")
+print(f"Number of full-time remote employees in the US: {full_time_remote_us}")
+
+
+SUMMARY
+
+The dataset comprises a total of 57,194 records, spanning over a period from 2020 to 2024(the records for 2020 and 2021 are lesser in number hence bar chart does not represent them).The major share of records is from year 2024. It provides detailed information about various job titles, salaries, and work conditions for employees in the tech industry. Among the roles analyzed, the average salary for Data Scientists is $159,397.
+
+While Data Engineers earn an average salary of $149,315. This shows that, on average, Data Scientists tend to earn more than Data Engineers, making Data Scientist the higher-paid role in this dataset.
+
+Furthermore, when considering the work arrangements of employees in the dataset, it was found that there are 0 full-time employees in the United States who work 100% remotely. This suggests that, despite the rise in remote work trends, there were no full-time employees based in the US who exclusively worked remotely in this particular dataset.
+
+This information provides a clear overview of the dataset's structure, highlighting salary differences between key roles in the tech industry and shedding light on the remote work trends among US employees.
