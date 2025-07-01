@@ -7,8 +7,11 @@ In this competition, I'll be analyzing salary data from thousands of employees g
 Here’s a breakdown of the data in points:
 
 Data Source: The data comes from a survey hosted by an HR consultancy, available in the 'salaries.csv' file.
+
 Each Row: Represents a single employee's salary record for a given year.
+
 Columns:
+
 work_year: The year the salary was paid.
 experience_level: Employee experience level:
 EN: Entry-level / Junior
